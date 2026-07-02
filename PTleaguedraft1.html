@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&#1489;&#1504;&#1492; &#1488;&#1514; &#1504;&#1489;&#1495;&#1512;&#1514; &#1492;&#1495;&#1500;&#1493;&#1502;&#1493;&#1514; &#1513;&#1500;&#1498; - 5 &#1489;-14$</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+            color: #222;
+        }
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            margin-bottom: 25px;
+        }
+        header h1 { margin: 0 0 10px 0; font-size: 30px; letter-spacing: 0.5px; }
+        header .subtitle { font-size: 16px; opacity: 0.9; line-height: 1.5; }
+        
+        .dashboard {
+            position: sticky;
+            top: 15px;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 30px;
+            z-index: 1000;
+            border: 2px solid #203a43;
+        }
+        .stat-box { text-align: center; }
+        .stat-label { font-size: 14px; color: #666; font-weight: bold; margin-bottom: 5px; }
+        .stat-value { font-size: 26px; font-weight: 800; color: #203a43; }
+        .stat-value.danger { color: #e74c3c; }
+        .stat-value.success { color: #2ecc71; }
+
+        .tier-section {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid #eef2f5;
+        }
+        .tier-header {
+            font-size: 18px;
+            font-weight: bold;
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+            border-bottom: 3px solid;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .tier-1 { border-color: #d4af37; color: #aa8000; }
+        .tier-2 { border-color: #ff4757; color: #ff4757; }
+        .tier-3 { border-color: #2e86de; color: #2e86de; }
+        .tier-4 { border-color: #20bf6b; color: #20bf6b; }
+        .tier-5 { border-color: #8854d0; color: #8854d0; }
+        .tier-6 { border-color: #718093; color: #718093; }
+
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        .player-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 14px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            user-select: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .player-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+            background: #f1f2f6;
+        }
+        .player-card.selected {
+            background-color: #203a43;
+            color: white;
+            border-color: #0f2027;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .selected-list {
+            background: #203a43;
+            color: white;
+            padding: 20px;
+            border-radius: 14px;
+            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .selected-list h3 { margin-top: 0; font-size: 18px; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
+        .chosen-names { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+        .chosen-tag { background: rgba(255,255,255,0.15); padding: 6px 12px; border-radius: 20px; font-size: 14px; font-weight: 500; border: 1px solid rgba(255,255,255,0.1); }
+        
+        .share-btn {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+            display: none; /* מוסתר כברירת מחדל */
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        .share-btn:hover { background: #27ae60; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>&#127942; &#1489;&#1504;&#1492; &#1488;&#1514; &#1495;&#1502;&#1497;&#1513;&#1497;&#1497;&#1514; &#1492;&#1495;&#1500;&#1493;&#1502;&#1493;&#1514; &#1513;&#1500;&#1498;</h1>
+        <div class="subtitle">&#1497;&#1513; &#1500;&#1498; &#1514;&#1511;&#1510;&#1497;&#1489; &#1502;&#1493;&#1490;&#1489;&#1500; &#1513;&#1500; <strong>$14</strong> &#1489;&#1491;&#1497;&#1493;&#1511; &#1499;&#1491;&#1497; &#1500;&#1489;&#1495;&#1493;&#1512; <strong>5 שחקנים</strong>.<br>&#1492;&#1511;&#1489;&#1493;&#1510;&#1493;&#1514; &#1495;&#1493;&#1500;&#1511;&#1493; &#1488;&#1493;&#1496;&#1493;&#1502;&#1496;&#1497;&#1514; &#1500;&#1508;&#1497; &#1491;&#1497;&#1512;&#1493;&#1490; &#1492;&#1502;&#1491;&#1491; &#1513;&#1489;&#1488;&#1514;&#1512; &#1492;&#1500;&#1497;&#1490;&#1492; (&#1502;&#1497;&#1504;&#1497;&#1502;&#1493;&#1501; &#1513;&#1500; 10 &#1502;&#1491;&#1491;)</div>
+    </header>
+
+    <div class="dashboard">
+        <div class="stat-box">
+            <div class="stat-label">&#1514;&#1511;&#1510;&#1497;&#1489; &#1513;&#1504;&#1493;&#1514;&#1512;</div>
+            <div id="budget-display" class="stat-value">$14</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">&#1513;&#1495;&#1511;&#1504;&#1497;&#1501; &#1513;&#1504;&#1489;&#1495;&#1512;&#1493;</div>
+            <div id="count-display" class="stat-value">0 / 5</div>
+        </div>
+    </div>
+
+    <div class="tier-section">
+        <div class="tier-header tier-1"><span>&#1513;&#1495;&#1511;&#1504;&#1497;&#1501; &#1489;-$6</span> <span>&#1502;&#1495;&#1497;&#1512;: $6</span></div>
+        <div class="players-grid" id="tier1-grid"></div>
+    </div>
+
+    <div class="tier-section">
+        <div class="tier-header tier-2"><span>&#1513;&#1495;&#1511;&#1504;&#1497;&#1501; &#1489;-$5</span> <span>&#1502;&#1495;&#1497;&#1512;: $5</span></div>
+        <div class="players-grid" id="tier2-grid"></div>
+    </div>
+
+    <div class="tier-section">
+        <div class="tier-header tier-3"><span>&#1513;&#1495;&#1511;&#1504;&#1497;&#1501; &#1489;-$4</span> <span>&#1502;&#1495;&#1497;&#1512;: $4</span></div>
+        <div class="players-grid" id="tier3-grid"></div>
+    </div>
+
+    <div class="tier-section">
+        <div class="tier-header tier-4"><span>&#1513;&#1495;&#1511;&#1504;&#1497;&#1501; &#1489;-$3</span> <span>&#1502;&#1495;&#1497;&#1512;: $3</span></div>
+        <div class="players-grid" id="tier4-grid"></div>
+    </div>
+
+    <div class="tier-section">
+        <div class="tier-header tier-5"><span>&#1513;&#1495;&#1511;&#1504;&#1497;&#1501; &#1489;-$2</span> <span>&#1502;&#1495;&#1497;&#1512;: $2</span></div>
+        <div class="players-grid" id="tier5-grid"></div>
+    </div>
+
+    <div class="tier-section">
+        <div class="tier-header tier-6"><span>&#1513;&#1495;&#1511;&#1504;&#1497;&#1501; &#1489;-$1</span> <span>&#1502;&#1495;&#1497;&#1512;: $1</span></div>
+        <div class="players-grid" id="tier6-grid"></div>
+    </div>
+
+    <div class="selected-list">
+        <h3>&#1492;&#1495;&#1502;&#1497;&#1513;&#1497;&#1497;&#1492; &#1492;&#1504;&#1489;&#1495;&#1512;&#1514; &#1513;&#1500;&#1498;:</h3>
+        <div class="chosen-names" id="chosen-container">
+            <span style="opacity: 0.6; font-style: italic;">&#1496;&#1512;&#1501; &#1504;&#1489;&#1495;&#1512;&#1493; &#1513;&#1495;1244&#1511;&#1504;&#1497;&#1501; &#1500;&#1495;&#1502;&#1497;&#1513;&#1497;&#1497;&#1492;...</span>
+        </div>
+        <button id="share-button" class="share-btn" onclick="shareTeam()">&#128228; &#1513;&#1514;&#1508;&#1493; &#1488;&#1514; &#1492;&#1495;&#1502;&#1497;&#1513;&#1497;&#1497;&#1492; &#1513;&#1500;&#1499;&#1501;!</button>
+    </div>
+</div>
+
+<script>
+    const playersData = {
+        tier1: ["\u05ea\u05de\u05D9\u05E8 \u05E1\u05D5\u05D9\u05E1\u05D4", "\u05D2\u05D9\u05D0 \u05E7\u05E8\u05D0\u05D5\u05E1", "\u05D3\u05E7\u05DC \u05D0\u05EA\u05E8\u05D5\u05D2", "\u05DE\u05E2\u05D5\u05D6 \u05E0\u05D7", "\u05EA\u05DE\u05D9\u05E8 \u05D4\u05D5\u05DA", "\u05E9\u05D2\u05D9\u05D0 \u05E0\u05D3\u05DC\u05E8", "\u05E8\u05D5\u05E2\u05D9 \u05D0\u05D1\u05E8\u05E9\u05D8\u05E8\u05E7", "\u05DE\u05D5\u05D8\u05D9 \u05E9\u05D8\u05E8\u05DF", "\u05D0\u05DC\u05E8\u05E2\u05D9 \u05D2\u05D5\u05DC\u05D3", "\u05D1\u05E8\u05E7 \u05D2\u05D5\u05E8\u05D1\u05D9\u05E5\u05F3"],
+        tier2: ["\u05E2\u05D5\u05DE\u05E8 \u05D5\u05E8\u05D8\u05D4\u05D9\u05D9\u05DE\u05E8", "\u05E0\u05D5\u05D4 \u05D1\u05DF \u05D9\u05D0\u05D9\u05E8", "\u05EA\u05D5\u05DE\u05E8 \u05D7\u05D5\u05DE\u05DF", "\u05DE\u05EA\u05DF \u05E0\u05D7\u05D5\u05E9\u05EA\u05DF", "\u05E2\u05D9\u05D3\u05D5 \u05D8\u05D9\u05D9\u05D8\u05DC\u05D1\u05D5\u05DD"],
+        tier3: ["\u05D0\u05DE\u05D9\u05E8 \u05E1\u05D9\u05D2\u05DC", "\u05D0\u05DC\u05E2\u05D3 \u05E9\u05E4\u05D9\u05D2\u05DC", "\u05D9\u05D5\u05D0\u05D1 \u05D7\u05DB\u05DE\u05D5\u05DF", "\u05E6\u05D7 \u05E7\u05D5\u05E4\u05D9\u05D8\u05D5", "\u05D0\u05D5\u05E8\u05D9 \u05D4\u05D5\u05DC\u05E0\u05D3\u05E8", "\u05D0\u05D9\u05EA\u05D9 \u05E9\u05D9\u05DC\u05D4", "\u05E2\u05D9\u05D3\u05D5 \u05E9\u05E8\u05E2\u05D1\u05D9", "\u05DE\u05E9\u05D4 \u05D1\u05DF \u05D3\u05D5\u05D3"],
+        tier4: ["\u05E2\u05DE\u05D9\u05EA \u05E9\u05D2\u05D1", "\u05D9\u05D5\u05EA\u05DD \u05E8\u05E4\u05E4\u05D5\u05E8\u05D8", "\u05D3\u05D5\u05D1\u05D5\u05E9 \u05D2\u05E8\u05D0\u05D5\u05DB\u05E8", "\u05D9\u05D4\u05D5\u05E0\u05EA\u05DF \u05D4\u05E8\u05E8\u05D9", "\u05DE\u05EA\u05E0\u05D9\u05D4 \u05E4\u05E8\u05D5\u05D9\u05DC\u05D9\u05DA", "\u05D1\u05E8\u05E7 \u05D3\u05D5\u05D9\u05D3\u05D5\u05D1\u05D9\u05E5", "\u05E2\u05D9\u05D3\u05D5 \u05D7\u05DC\u05DE\u05D9\u05E9", "\u05DE\u05D0\u05D9\u05E8 \u05D4\u05E8\u05E9\u05E7\u05D5\u05D1\u05D9\u05E5", "\u05D0\u05E1\u05E3 \u05D0\u05D9\u05D6\u05E0\u05D1\u05E8\u05D2", "\u05E8\u05D5\u05E2\u05D9 \u05D0\u05DE\u05D9\u05E0\u05D5\u05D1", "\u05DE\u05EA\u05DF \u05D5\u05D9\u05D9\u05E1", "\u05D0\u05D9\u05D9\u05DC \u05E9\u05D9\u05E3", "\u05E8\u05D5\u05E2\u05D9 \u05E8\u05D9\u05E0\u05D4\u05E8\u05E5", "\u05D0\u05E9\u05E8 \u05E4\u05D9\u05D9\u05DF", "\u05D2\u05D5\u05DC\u05DF \u05D2\u05DC\u05D1\u05E8", "\u05E0\u05EA\u05DF \u05D2\u05E8\u05D0\u05D5\u05DB\u05E8", "\u05D0\u05D1\u05D9 \u05D1\u05DF \u05D3\u05D5\u05D3", "\u05D0\u05D5\u05E4\u05E7 \u05D6\u05D5\u05D4\u05E8"],
+        tier5: ["\u05D8\u05DC \u05D3\u05D5\u05D9\u05E3", "\u05DE\u05E9\u05D4 \u05E7\u05D9\u05E8\u05E9\u05E0\u05E8", "\u05D3\u05E0\u05D9 \u05E7\u05D0\u05D5\u05E4\u05DE\u05DF", "\u05E0\u05D5\u05E2\u05DD \u05D0\u05E9\u05DB\u05E0\u05D6\u05D9", "\u05D0\u05E8\u05D9\u05D0\u05DC \u05DE\u05E8\u05E7\u05D5\u05D1\u05D9\u05E5", "\u05D3\u05D5\u05D3 \u05DC\u05D7\u05DE\u05D9\u05E9", "\u05E8\u05D5\u05E2\u05D9 \u05D7\u05DB\u05DC\u05D9\u05DC\u05D9", "\u05D0\u05E8\u05D9\u05D0\u05DC \u05D9\u05E7\u05D5\u05EA\u05D9\u05D0\u05DC"],
+        tier6: ["\u05D9\u05D0\u05D9\u05E8 \u05DC\u05E4\u05D9\u05D3", "\u05D4\u05E8\u05D0\u05DC \u05D3\u05D5\u05D9\u05D8\u05E9", "\u05E2\u05D9\u05D3\u05D5 \u05E1\u05DC\u05DD", "\u05E2\u05D9\u05D3\u05DF \u05D7\u05D6\u05DF", "\u05E9\u05DC\u05D5 \u05D5\u05D9\u05D9\u05E1", "\u05DE\u05EA\u05DF \u05E9\u05D9\u05E0\u05E4\u05DC\u05D3", "\u05E7\u05D5\u05E8\u05DF \u05DE\u05D0\u05D9\u05E8\u05D5\u05D1\u05D9\u05E5\u05F3", "\u05D3\u05E0\u05D9\u05E1 \u05D1\u05D5\u05D1\u05D5\u05E8\u05D9\u05E7\u05D9\u05DF", "\u05DE\u05E9\u05D4 \u05D4\u05D5\u05E8\u05D1\u05D9\u05E5", "\u05D0\u05DC\u05E2\u05D3 \u05E6\u05D3\u05D5\u05E7", "\u05D0\u05E8\u05D6 \u05D0\u05D1\u05E8\u05E9\u05D8\u05E8\u05E7", "\u05D0\u05D9\u05EA\u05DE\u05E8 \u05E6\u05D9\u05DD", "\u05D0\u05D5\u05E8\u05D9 \u05D1\u05DF \u05E9\u05D7\u05E8", "\u05D2\u05E4\u05DF \u05D5\u05E8\u05D5\u05DF", "\u05D0\u05DC\u05E2\u05D3 \u05D8\u05D5\u05D1\u05DC", "\u05D3\u05D1\u05D9\u05E8 \u05DC\u05D5\u05E8\u05D9\u05D0", "\u05D3\u05D5\u05E8 \u05E7\u05D5\u05E4\u05D9\u05D8\u05D5", "\u05D9\u05D5\u05D0\u05D1 \u05D0\u05E9\u05DB\u05E0\u05D6\u05D9", "\u05E8\u05EA\u05DD \u05D0\u05E9\u05DB\u05E0\u05D6\u05D9", "\u05D0\u05D9\u05EA\u05DE\u05E8 \u05D1\u05E8\u05E7", "\u05D9\u05D5\u05E0\u05EA\u05DF \u05E9\u05D5\u05D1\u05D9", "\u05D0\u05DC\u05E2\u05D3 \u05D0\u05E9\u05E8", "\u05E4\u05DC\u05D2 \u05E9\u05DE\u05D7", "\u05D9\u05D4\u05D5\u05E0\u05EA\u05DF \u05E4\u05E8\u05D9\u05E9", "\u05E8\u05D5\u05E2\u05D9 \u05D5\u05D9\u05D9\u05E1", "\u05E9\u05D9 \u05E8\u05D7\u05DE\u05E0\u05D9", "\u05E8\u05D5\u05E2\u05D9 \u05D1\u05D9\u05D9\u05E0\u05D4\u05D5\u05E8\u05DF", "\u05D0\u05D1\u05D9\u05D1 \u05D5\u05D9\u05D9\u05E1", "\u05E0\u05D9\u05EA\u05D0\u05D9 \u05D0\u05DC\u05E0\u05E7\u05E8\u05D9", "\u05E0\u05E2\u05DD \u05E4\u05E8\u05E0\u05E7\u05DC", "\u05E0\u05D3\u05D1 \u05DB\u05D4\u05DF", "\u05D0\u05D5\u05D4\u05D3 \u05DE\u05D9\u05D6\u05DC\u05E1", "\u05D3\u05E0\u05D9\u05D0\u05DC \u05E4\u05E0\u05D8", "\u05D3\u05D5\u05D3 \u05D2\u05D5\u05D8\u05DE\u05DF", "\u05D0\u05D5\u05D4\u05D3 \u05E1\u05D5\u05D1\u05DC\u05DE\u05DF", "\u05D1\u05E2\u05D6 \u05D5\u05D5\u05DC\u05E9\u05D8\u05D9\u05D9\u05DF", "\u05DE\u05EA\u05DF \u05E8\u05D9\u05E0\u05D4\u05E8\u05E5", "\u05D9\u05D4\u05D5\u05D3\u05D4 \u05E4\u05D3\u05E8", "\u05D0\u05E8\u05D9\u05D0\u05DC \u05D4\u05D5\u05DC\u05E0\u05D3\u05E8", "\u05E2\u05D3\u05D9 \u05E0\u05E1\u05D9\u05DE\u05D9", "\u05D0\u05DC\u05D5\u05DF \u05E4\u05E8\u05D9\u05D3\u05DE\u05DF", "\u05D0\u05D5\u05E8\u05D9 \u05E4\u05D5\u05DC\u05E7", "\u05D0\u05D1\u05D9\u05E2\u05D3 \u05D5\u05D9\u05D9\u05E1", "\u05E0\u05D5\u05E2\u05DD \u05E9\u05D8\u05E8\u05E0\u05D1\u05E8\u05D2"]
+    };
+
+    let selectedPlayers = [];
+
+    function initGame() {
+        renderTier('tier1-grid', playersData.tier1, 6);
+        renderTier('tier2-grid', playersData.tier2, 5);
+        renderTier('tier3-grid', playersData.tier3, 4);
+        renderTier('tier4-grid', playersData.tier4, 3);
+        renderTier('tier5-grid', playersData.tier5, 2);
+        renderTier('tier6-grid', playersData.tier6, 1);
+    }
+
+    function renderTier(gridId, players, cost) {
+        const grid = document.getElementById(gridId);
+        players.forEach(name => {
+            const card = document.createElement('div');
+            card.className = 'player-card';
+            card.innerText = name;
+            card.onclick = () => togglePlayer(card, name, cost);
+            grid.appendChild(card);
+        });
+    }
+
+    function togglePlayer(card, name, cost) {
+        const index = selectedPlayers.findIndex(p => p.name === name);
+        const totalSpent = selectedPlayers.reduce((sum, p) => sum + p.cost, 0);
+        
+        if (index > -1) {
+            selectedPlayers.splice(index, 1);
+            card.classList.remove('selected');
+        } else {
+            if (totalSpent + cost > 14) {
+                alert("&#1488;&#1497;&#1503; &#1500;&#1498; &#1502;&#1505;&#1508;&#1497;&#1511; &#1514;&#1511;&#1510;&#1497;&#1489; &#1500;&#1513;&#1495;&#1511;&#1503; &#1492;&#1494;&#1492;!");
+                return;
+            }
+            if (selectedPlayers.length >= 5) {
+                alert("&#1488;&#1497; &#1488;&#1508;&#1513;&#1512; &#1500;&#1489;&#1495;&#1493;&#1512; &#1497;&#1493;&#1514;&#1512; &#1502;-5 &#1513;&#1495;&#1511;&#1504;&#1497;&#1501; &#1500;&#1495;&#1502;&#1497;&#1513;&#1497;&#1497;&#1492;!");
+                return;
+            }
+            
+            selectedPlayers.push({ name, cost });
+            card.classList.add('selected');
+        }
+        
+        updateDashboard();
+    }
+
+    function updateDashboard() {
+        const totalSpent = selectedPlayers.reduce((sum, p) => sum + p.cost, 0);
+        const remaining = 14 - totalSpent;
+        const count = selectedPlayers.length;
+
+        const budgetDisplay = document.getElementById('budget-display');
+        const countDisplay = document.getElementById('count-display');
+        const chosenContainer = document.getElementById('chosen-container');
+        const shareButton = document.getElementById('share-button');
+
+        budgetDisplay.innerText = `$${remaining}`;
+        countDisplay.innerText = `${count} / 5`;
+
+        if (remaining === 0 && count === 5) {
+            budgetDisplay.className = 'stat-value success';
+            countDisplay.className = 'stat-value success';
+        } else {
+            budgetDisplay.className = 'stat-value';
+            countDisplay.className = 'stat-value';
+        }
+
+        if (selectedPlayers.length === 0) {
+            chosenContainer.innerHTML = '<span style="opacity: 0.6; font-style: italic;">טרם נבחרו שחקנים לחמישייה...</span>';
+        } else {
+            chosenContainer.innerHTML = '';
+            selectedPlayers.forEach(p => {
+                const tag = document.createElement('span');
+                tag.className = 'chosen-tag';
+                tag.innerText = `${p.name} ($${p.cost})`;
+                chosenContainer.appendChild(tag);
+            });
+        }
+
+        // שינוי כאן: כפתור השיתוף יוצג רק אם נבחרו בדיוק 5 שחקנים
+        if (count === 5) {
+            shareButton.style.display = 'flex';
+        } else {
+            shareButton.style.display = 'none';
+        }
+    }
+
+    function shareTeam() {
+        if (selectedPlayers.length !== 5) {
+            alert(`&#1495;&#1493;&#1489;&#1492; &#1500;&#1489;&#1495;&#1493;&#1512; &#1489;&#1491;&#1497;&#1493;&#1511; 5 &#1513;&#1495;&#1511;&#1504;&#1497;&#1501; &#1499;&#1491;&#1497; &#1500;&#1513;&#1514;&#1507;! (&#1499;&#1512;&#1490;&#1506; &#1489;&#1495;&#1512;&#1514; ${selectedPlayers.length})`);
+            return;
+        }
+
+        const totalSpent = selectedPlayers.reduce((sum, p) => sum + p.cost, 0);
+        const currentUrl = window.location.href; 
+        
+        let shareText = `&#127936; &#1494;&#1488;&#1514; &#1495;&#1502;&#1497;&#1513;&#1497;&#1497;&#1514; &#1492;&#1495;&#1500;&#1493;&#1502;&#1493;&#1514; &#1513;&#1500;&#1497; &#1489;-$14!\n\n`;
+        
+        selectedPlayers.forEach((p, index) => {
+            shareText += `${index + 1}. ${p.name} ($${p.cost})\n`;
+        });
+        
+        shareText += `\n&#1505;&#1492;"&#1499; &#1513;&#1495;&#1511;&#1504;&#1497;&#1501;: ${selectedPlayers.length}/5\nתקציב שנוצל: $${totalSpent}/$14\n\n`;
+        shareText += `&#1489;&#1504;&#1493; &#1488;&#1514; &#1495;&#1502;&#1497;&#1513;&#1497;&#1497;&#1514; &#1492;&#1495;&#1500;&#1493;&#1502;&#1493;&#1514; &#1513;&#1500;&#1499;&#1501; &#1490;&#1501; &#1499;&#1488;&#1503; &#128071;\n${currentUrl}`;
+
+        if (navigator.share) {
+            navigator.share({
+                title: '&#1495;&#1502;&#1497;&#1513;&#1497;&#1497;&#1514; &#1492;&#1495;&#1500;&#1493;&#1502;&#1493;&#1514; &#1513;&#1500;&#1497;',
+                text: shareText
+            }).catch(err => console.log(err));
+        } else {
+            navigator.clipboard.writeText(shareText).then(() => {
+                alert('&#1492;&#1495;&#1502;&#1497;&#1513;&#1497;&#1497;&#1492; &#1493;&#1492;&#1511;&#1497;&#1513;&#1493;&#1512; &#1492;&#1493;&#1506;&#1514;&#1511;&#1493; &#1500;&#1500;&#1493;&#1495;! &#1506;&#1499;&#1513;&#1497;&#1493; &#1488;&#1508;&#1513;&#1512; &#1500;&#1492;&#1491;&#1489;&#1497;&#1511; &#1493;&#1500;&#1513;&#1514;&#1507; &#1489;&#1499;&#1500; &#1502;&#1511;&#1493;&#1501;.');
+            }).catch(err => {
+                alert('&#1513;&#1490;&#1497;&#1488;&#1492; &#1489;&#1492;&#1506;&#1514;&#1511;&#1514; &#1492;&#1496;&#1511;&#1505;&#1496;.');
+            });
+        }
+    }
+
+    window.onload = initGame;
+</script>
+
+</body>
+</html>
